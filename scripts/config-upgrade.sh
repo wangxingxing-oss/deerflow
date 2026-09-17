@@ -9,6 +9,10 @@
 set -e
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# Git Bash reports POSIX paths (/e/...), which Windows Python cannot open. Convert to a Windows path.
+if command -v cygpath >/dev/null 2>&1 && [ "${REPO_ROOT#/}" != "$REPO_ROOT" ]; then
+    REPO_ROOT="$(cygpath -w "$REPO_ROOT")"
+fi
 EXAMPLE="$REPO_ROOT/config.example.yaml"
 
 # Resolve config.yaml location: env var > backend/ > repo root
