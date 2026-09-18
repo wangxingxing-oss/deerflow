@@ -406,6 +406,11 @@ You have access to skills that provide optimized workflows for specific tasks. E
 
 **Skills are located at:** {container_base_path}
 
+**Creating and updating skills:**
+- Write new or modified skills under `{container_base_path}/custom/<skill-name>/` (a `SKILL.md` plus any resources). That directory is the only writable part of the skills tree — everything else under `{container_base_path}` is read-only, so never write outside `custom/`.
+- If `{container_base_path}/custom/` turns out to be read-only (for example in a container sandbox with a read-only mount), build the skill inside the thread workspace instead, package it as a `.skill` archive (zip) in the outputs directory, and tell the user to install it from there.
+- After writing a skill, verify it with `read_file` and tell the user the skill name so they can find it on the Skills page.
+
 {skills_list}
 
 </skill_system>"""

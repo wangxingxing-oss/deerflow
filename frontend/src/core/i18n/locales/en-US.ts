@@ -35,6 +35,7 @@ export const enUS: Translations = {
     custom: "Custom",
     notAvailableInDemoMode: "Not available in demo mode",
     loading: "Loading...",
+    noResults: "No results found",
     version: "Version",
     lastUpdated: "Last updated",
     code: "Code",
@@ -69,6 +70,7 @@ export const enUS: Translations = {
     placeholder: "How can I assist you today?",
     createSkillPrompt:
       "We're going to build a new skill step by step with `skill-creator`. To start, what do you want this skill to do?",
+    useSkillDirective: (name: string) => `Use the "${name}" skill:`,
     addAttachments: "Add attachments",
     mode: "Mode",
     flashMode: "Flash",
@@ -160,6 +162,7 @@ export const enUS: Translations = {
     recentChats: "Recent chats",
     demoChats: "Demo chats",
     agents: "Agents",
+    skills: "Skills",
   },
 
   // Agents
@@ -196,6 +199,58 @@ export const enUS: Translations = {
     backToGallery: "Back to Gallery",
   },
 
+  // Skills
+  skills: {
+    title: "Skills",
+    description:
+      "Browse and manage your skills, or let the agent create new ones for you.",
+    newSkill: "New Skill",
+    emptyTitle: "No custom skills yet",
+    emptyDescription:
+      "Create your first custom skill to extend what the agent can do.",
+    useSkillLabel: "Custom skills",
+    useSkillEmpty:
+      "No custom skills yet — create one on the Skills page.",
+    disabledLabel: "disabled",
+    delete: "Delete",
+    deleteConfirmTitle: "Delete skill",
+    deleteConfirmDescription: (name: string) =>
+      `Delete the "${name}" skill? Its files will be removed. This cannot be undone.`,
+    deleteSuccess: "Skill deleted",
+    builtinNotDeletable: "Built-in skills cannot be deleted — disable it instead",
+    newSkillHint:
+      "Upload a skill package or create one by hand — both land in the custom folder.",
+    uploadTab: "Upload package",
+    manualTab: "Create manually",
+    uploadHint:
+      "Accepts a .skill or .zip archive containing a skill directory with SKILL.md.",
+    chooseFile: "Choose file",
+    noFileSelected: "No file selected",
+    installAction: "Upload & install",
+    installing: "Uploading...",
+    nameLabel: "Skill name",
+    namePlaceholder: "e.g. my-skill (lowercase letters, digits, hyphens)",
+    nameInvalid:
+      "Lowercase letters, digits and hyphens only — for example my-skill",
+    descriptionLabel: "Description",
+    descriptionPlaceholder:
+      "What the skill does and when the agent should use it.",
+    instructionsLabel: "Instructions (optional)",
+    instructionsPlaceholder:
+      "Written into the SKILL.md body: steps, rules, or notes.",
+    createAction: "Create",
+    creating: "Creating...",
+    createSuccess: "Skill created",
+    installSuccess: "Skill package installed",
+    filesTitle: "Skill directory",
+    filesEmpty: "This skill directory is empty",
+    filesTruncated: "Too many files — showing the first 2000 entries",
+    selectFileHint: "Select a file to preview its content",
+    binaryFile: "Binary file — cannot preview",
+    contentTruncated: "Content truncated — showing the first 200KB",
+    viewFiles: "View files",
+  },
+
   // Breadcrumb
   breadcrumb: {
     workspace: "Workspace",
@@ -206,11 +261,10 @@ export const enUS: Translations = {
   workspace: {
     officialWebsite: "DeerFlow's official website",
     githubTooltip: "DeerFlow on Github",
-    settingsAndMore: "Settings and more",
+    settingsAndMore: "Settings",
     visitGithub: "DeerFlow on GitHub",
     reportIssue: "Report a issue",
     contactUs: "Contact us",
-    about: "About DeerFlow",
   },
 
   // Conversation
@@ -280,7 +334,6 @@ export const enUS: Translations = {
       tools: "Tools",
       skills: "Skills",
       notification: "Notification",
-      about: "About",
     },
     memory: {
       title: "Memory",

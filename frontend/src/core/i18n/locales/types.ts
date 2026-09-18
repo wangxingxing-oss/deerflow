@@ -24,6 +24,7 @@ export interface Translations {
     custom: string;
     notAvailableInDemoMode: string;
     loading: string;
+    noResults: string;
     version: string;
     lastUpdated: string;
     code: string;
@@ -54,6 +55,7 @@ export interface Translations {
   inputBox: {
     placeholder: string;
     createSkillPrompt: string;
+    useSkillDirective: (name: string) => string;
     addAttachments: string;
     mode: string;
     flashMode: string;
@@ -105,6 +107,7 @@ export interface Translations {
     chats: string;
     demoChats: string;
     agents: string;
+    skills: string;
   };
 
   // Agents
@@ -134,6 +137,49 @@ export interface Translations {
     backToGallery: string;
   };
 
+  // Skills
+  skills: {
+    title: string;
+    description: string;
+    newSkill: string;
+    emptyTitle: string;
+    emptyDescription: string;
+    useSkillLabel: string;
+    useSkillEmpty: string;
+    disabledLabel: string;
+    delete: string;
+    deleteConfirmTitle: string;
+    deleteConfirmDescription: (name: string) => string;
+    deleteSuccess: string;
+    builtinNotDeletable: string;
+    newSkillHint: string;
+    uploadTab: string;
+    manualTab: string;
+    uploadHint: string;
+    chooseFile: string;
+    noFileSelected: string;
+    installAction: string;
+    installing: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    nameInvalid: string;
+    descriptionLabel: string;
+    descriptionPlaceholder: string;
+    instructionsLabel: string;
+    instructionsPlaceholder: string;
+    createAction: string;
+    creating: string;
+    createSuccess: string;
+    installSuccess: string;
+    filesTitle: string;
+    filesEmpty: string;
+    filesTruncated: string;
+    selectFileHint: string;
+    binaryFile: string;
+    contentTruncated: string;
+    viewFiles: string;
+  };
+
   // Breadcrumb
   breadcrumb: {
     workspace: string;
@@ -148,7 +194,6 @@ export interface Translations {
     visitGithub: string;
     reportIssue: string;
     contactUs: string;
-    about: string;
   };
 
   // Conversation
@@ -217,7 +262,6 @@ export interface Translations {
       tools: string;
       skills: string;
       notification: string;
-      about: string;
     };
     memory: {
       title: string;

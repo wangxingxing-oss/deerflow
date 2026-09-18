@@ -7,6 +7,15 @@ import "./src/env.js";
 /** @type {import("next").NextConfig} */
 const config = {
   devIndicators: false,
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/workspace/chats/new",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default config;

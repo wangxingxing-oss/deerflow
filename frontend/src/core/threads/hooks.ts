@@ -9,6 +9,7 @@ import type { PromptInputMessage } from "@/components/ai-elements/prompt-input";
 
 import { getAPIClient } from "../api";
 import { useI18n } from "../i18n/hooks";
+import { ownerMetadata } from "../identity";
 import type { FileInMessage } from "../messages/utils";
 import type { LocalSettings } from "../settings";
 import { useUpdateSubtask } from "../tasks/context";
@@ -418,17 +419,23 @@ export function useThreads(
   },
 ) {
   const apiClient = getAPIClient();
+  // Scope listings to threads created by this browser (see core/identity).
+  const scopedParams: Parameters<ThreadsClient["search"]>[0] = {
+    ...params,
+    metadata: { ...ownerMetadata(), ...params.metadata },
+  };
   return useQuery<AgentThread[]>({
-    queryKey: ["threads", "search", params],
+    queryKey: ["threads", "search", scopedParams],
     queryFn: async () => {
-      const maxResults = params.limit;
-      const initialOffset = params.offset ?? 0;
+      const maxResults = scopedParams.limit;
+      const initialOffset = scopedParams.offset ?? 0;
       const DEFAULT_PAGE_SIZE = 50;
 
       // Preserve prior semantics: if a non-positive limit is explicitly provided,
       // delegate to a single search call with the original parameters.
       if (maxResults !== undefined && maxResults <= 0) {
-        const response = await apiClient.threads.search<AgentThreadState>(params);
+        const response =
+          await apiClient.threads.search<AgentThreadState>(scopedParams);
         return response as AgentThread[];
       }
 
@@ -455,7 +462,7 @@ export function useThreads(
         }
 
         const response = (await apiClient.threads.search<AgentThreadState>({
-          ...params,
+          ...scopedParams,
           limit: currentLimit,
           offset,
         })) as AgentThread[];

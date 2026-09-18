@@ -3,6 +3,7 @@
 import { Client as LangGraphClient } from "@langchain/langgraph-sdk/client";
 
 import { getLangGraphBaseURL } from "../config";
+import { ownerMetadata } from "../identity";
 
 import { sanitizeRunStreamOptions } from "./stream-mode";
 
@@ -10,6 +11,15 @@ function createCompatibleClient(isMock?: boolean): LangGraphClient {
   const client = new LangGraphClient({
     apiUrl: getLangGraphBaseURL(isMock),
   });
+
+  // Stamp every thread created from this browser with its anonymous owner, so
+  // thread listings can be scoped per browser (see core/identity).
+  const originalThreadsCreate = client.threads.create.bind(client.threads);
+  client.threads.create = ((payload) =>
+    originalThreadsCreate({
+      ...payload,
+      metadata: { ...ownerMetadata(), ...payload?.metadata },
+    })) as typeof client.threads.create;
 
   const originalRunStream = client.runs.stream.bind(client.runs);
   client.runs.stream = ((threadId, assistantId, payload) =>

@@ -35,6 +35,7 @@ export const zhCN: Translations = {
     custom: "自定义",
     notAvailableInDemoMode: "在演示模式下不可用",
     loading: "加载中...",
+    noResults: "没有找到结果",
     version: "版本",
     lastUpdated: "最后更新",
     code: "代码",
@@ -69,6 +70,7 @@ export const zhCN: Translations = {
     placeholder: "今天我能为你做些什么？",
     createSkillPrompt:
       "我们一起用 skill-creator 技能来创建一个技能吧。先问问我希望这个技能能做什么。",
+    useSkillDirective: (name: string) => `请使用技能「${name}」：`,
     addAttachments: "添加附件",
     mode: "模式",
     flashMode: "闪速",
@@ -154,6 +156,7 @@ export const zhCN: Translations = {
     recentChats: "最近的对话",
     demoChats: "演示对话",
     agents: "智能体",
+    skills: "技能",
   },
 
   // Agents
@@ -185,6 +188,51 @@ export const zhCN: Translations = {
     backToGallery: "返回 Gallery",
   },
 
+  // Skills
+  skills: {
+    title: "技能",
+    description: "查看和管理你的技能，也可以让智能体帮你创建新技能。",
+    newSkill: "新建技能",
+    emptyTitle: "还没有自定义技能",
+    emptyDescription: "创建你的第一个自定义技能，让智能体掌握新的能力。",
+    useSkillLabel: "自定义技能",
+    useSkillEmpty: "还没有自定义技能，可到「技能」页创建。",
+    disabledLabel: "未启用",
+    delete: "删除",
+    deleteConfirmTitle: "删除技能",
+    deleteConfirmDescription: (name: string) =>
+      `确定要删除技能「${name}」吗？该技能的文件会被移除，此操作不可撤销。`,
+    deleteSuccess: "技能已删除",
+    builtinNotDeletable: "内置技能不可删除，可先禁用",
+    newSkillHint: "上传技能包，或手动创建一个技能，都会安装到 custom 目录。",
+    uploadTab: "上传技能包",
+    manualTab: "手动创建",
+    uploadHint:
+      "支持 .skill 或 .zip 压缩包，压缩包内需包含一个含 SKILL.md 的技能目录。",
+    chooseFile: "选择文件",
+    noFileSelected: "尚未选择文件",
+    installAction: "上传并安装",
+    installing: "上传中...",
+    nameLabel: "技能名称",
+    namePlaceholder: "例如 my-skill（小写字母、数字、连字符）",
+    nameInvalid: "只允许小写字母、数字和连字符，例如 my-skill",
+    descriptionLabel: "技能描述",
+    descriptionPlaceholder: "说明这个技能做什么、什么时候使用它。",
+    instructionsLabel: "技能指令（可选）",
+    instructionsPlaceholder: "会写入 SKILL.md 正文：执行步骤、规则或注意事项。",
+    createAction: "创建",
+    creating: "创建中...",
+    createSuccess: "技能已创建",
+    installSuccess: "技能包已安装",
+    filesTitle: "技能目录",
+    filesEmpty: "这个技能目录是空的",
+    filesTruncated: "文件过多，仅显示前 2000 项",
+    selectFileHint: "点击左侧文件查看内容",
+    binaryFile: "二进制文件，无法预览",
+    contentTruncated: "内容过长，仅显示前 200KB",
+    viewFiles: "查看目录",
+  },
+
   // Breadcrumb
   breadcrumb: {
     workspace: "工作区",
@@ -195,11 +243,10 @@ export const zhCN: Translations = {
   workspace: {
     officialWebsite: "访问 DeerFlow 官方网站",
     githubTooltip: "访问 DeerFlow 的 Github 仓库",
-    settingsAndMore: "设置和更多",
+    settingsAndMore: "设置",
     visitGithub: "在 Github 上查看 DeerFlow",
     reportIssue: "报告问题",
     contactUs: "联系我们",
-    about: "关于 DeerFlow",
   },
 
   // Conversation
@@ -267,7 +314,6 @@ export const zhCN: Translations = {
       tools: "工具",
       skills: "技能",
       notification: "通知",
-      about: "关于",
     },
     memory: {
       title: "记忆",

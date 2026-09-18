@@ -245,6 +245,17 @@ def _reject_path_traversal(path: str) -> None:
             raise PermissionError("Access denied: path traversal detected")
 
 
+def _is_writable_skills_path(path: str) -> bool:
+    """Check whether a skills path is inside the writable custom category.
+
+    Public (built-in) skills stay read-only so the agent cannot modify skills
+    that ship with the repository; custom skills are user-owned and may be
+    created or edited in place.
+    """
+    custom_prefix = f"{_get_skills_container_path()}/custom"
+    return path == custom_prefix or path.startswith(f"{custom_prefix}/")
+
+
 def validate_local_tool_path(path: str, thread_data: ThreadDataState | None, *, read_only: bool = False) -> None:
     """Validate that a virtual path is allowed for local-sandbox access.
 
@@ -254,13 +265,14 @@ def validate_local_tool_path(path: str, thread_data: ThreadDataState | None, *, 
     ``_resolve_and_validate_user_data_path`` or ``_resolve_skills_path``.
 
     Allowed virtual-path families:
-      - ``/mnt/user-data/*``  — always allowed (read + write)
-      - ``/mnt/skills/*``     — allowed only when *read_only* is True
+      - ``/mnt/user-data/*``        — always allowed (read + write)
+      - ``/mnt/skills/custom/*``    — read + write (user-owned skills)
+      - ``/mnt/skills/*`` (other)   — read-only
 
     Args:
         path: The virtual path to validate.
         thread_data: Thread data (must be present for local sandbox).
-        read_only: When True, skills paths are permitted.
+        read_only: When True, every skills path is permitted.
 
     Raises:
         SandboxRuntimeError: If thread data is missing.
@@ -271,11 +283,14 @@ def validate_local_tool_path(path: str, thread_data: ThreadDataState | None, *, 
 
     _reject_path_traversal(path)
 
-    # Skills paths — read-only access only
+    # Skills paths — custom skills are writable, the rest is read-only
     if _is_skills_path(path):
-        if not read_only:
-            raise PermissionError(f"Write access to skills path is not allowed: {path}")
-        return
+        if read_only or _is_writable_skills_path(path):
+            return
+        raise PermissionError(
+            f"Write access to skills path is not allowed: {path}. "
+            f"Only {_get_skills_container_path()}/custom is writable."
+        )
 
     # User-data paths
     if path.startswith(f"{VIRTUAL_PATH_PREFIX}/"):
@@ -670,7 +685,10 @@ def write_file_tool(
         if is_local_sandbox(runtime):
             thread_data = get_thread_data(runtime)
             validate_local_tool_path(path, thread_data)
-            path = _resolve_and_validate_user_data_path(path, thread_data)
+            if _is_skills_path(path):
+                path = _resolve_skills_path(path)
+            else:
+                path = _resolve_and_validate_user_data_path(path, thread_data)
         sandbox.write_file(path, content, append)
         return "OK"
     except SandboxError as e:
@@ -711,7 +729,10 @@ def str_replace_tool(
         if is_local_sandbox(runtime):
             thread_data = get_thread_data(runtime)
             validate_local_tool_path(path, thread_data)
-            path = _resolve_and_validate_user_data_path(path, thread_data)
+            if _is_skills_path(path):
+                path = _resolve_skills_path(path)
+            else:
+                path = _resolve_and_validate_user_data_path(path, thread_data)
         content = sandbox.read_file(path)
         if not content:
             return "OK"
